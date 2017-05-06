@@ -61,7 +61,8 @@ describe('The DragDropContext composable', function () {
     const source = TestUtils.renderIntoDocument(<Component name="source" />),
           target1 = TestUtils.renderIntoDocument(<Component name="target1" />),
           target2 = TestUtils.renderIntoDocument(<Component name="target2" />),
-          config = jasmine.createSpyObj([ 'canDrop' ]);
+          config = jasmine.createSpy('config', () => { });
+    config.canDrop = jasmine.createSpy('canDrop', () => {  });
 
     target1.component = TestUtils.findRenderedDOMComponentWithTag(target1, 'div');
     target2.component = TestUtils.findRenderedDOMComponentWithTag(target2, 'div');
@@ -207,7 +208,9 @@ describe('The DragDropContext composable', function () {
 
       target.component = targetDiv;
       target.targets = [{ element: targetDiv, key: 'target' }];
-      config = jasmine.createSpyObj([ 'canDrop', 'drop' ]);
+      config = jasmine.createSpy('config', () => {  });
+      config.canDrop = jasmine.createSpy('canDrop', () => {  });
+      config.drop = jasmine.createSpy('drop', () => {  });
 
       spyOn(store, 'dispatch');
       spyOn(store, 'getState').and.returnValue({
@@ -222,10 +225,10 @@ describe('The DragDropContext composable', function () {
       });
     });
 
-    it('dispatches the DRAG_CANCEL action on mouse leave', function () {
+    it('does not dispatches the DRAG_CANCEL action on mouse leave', function () {
       TestUtils.Simulate.mouseLeave(div, {});
 
-      expect(store.dispatch).toHaveBeenCalledWith({
+      expect(store.dispatch).not.toHaveBeenCalledWith({
         type: Constants.ACTIONS.DRAG_DROP.DRAG_CANCEL
       });
     });

@@ -58,7 +58,6 @@ export default function DragDropContext(Component) {
       }
 
       props = Object.assign({}, node.props, {
-        onMouseLeave: this.dragCancel,
         onMouseMove: this.dragMove,
         onMouseUp: this.dragEnd,
         onTouchCancel: this.dragCancel,
