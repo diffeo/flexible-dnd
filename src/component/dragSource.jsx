@@ -47,7 +47,7 @@ export default function DragSource(Component) {
       this.unsubscribe();
     }
 
-    connect(node) {
+    connect(node, canDragFunc) {
       var handler, props;
 
       if (typeof node.type !== 'string') {
@@ -55,7 +55,9 @@ export default function DragSource(Component) {
       }
 
       handler = (e) => {
-        this.dragStart(node, e);
+        if (!canDragFunc || canDragFunc(e)) {
+          this.dragStart(node, e);
+        }
       };
 
       props = Object.assign({}, node.props, {
