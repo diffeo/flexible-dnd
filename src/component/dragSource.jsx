@@ -14,7 +14,9 @@ export default function DragSource(Component) {
         isDragging: false,
         dragKey: null,
         dragDeltaX: null,
-        dragDeltaY: null
+        dragDeltaY: null,
+        dragStartX: null,
+        dragStartY: null,
       };
     }
 
@@ -30,14 +32,18 @@ export default function DragSource(Component) {
             isDragging,
             dragKey: state.dragKey,
             dragDeltaX: state.end.x - state.start.x,
-            dragDeltaY: state.end.y - state.start.y
+            dragDeltaY: state.end.y - state.start.y,
+            dragStartX: state.start.x,
+            dragStartY: state.start.y,
           });
         } else if (this.state.isDragging) {
           this.setState({
             isDragging,
             dragKey: null,
             dragDeltaX: null,
-            dragDeltaY: null
+            dragDeltaY: null,
+            dragStartX: null,
+            dragStartY: null,
           });
         }
       });
@@ -94,6 +100,8 @@ export default function DragSource(Component) {
       };
 
       if (isDragging) {
+        props.dragStartX = this.state.dragStartX;
+        props.dragStartY = this.state.dragStartY;
         props.dragDeltaX = this.state.dragDeltaX;
         props.dragDeltaY = this.state.dragDeltaY;
         props.dragKey = this.state.dragKey;
